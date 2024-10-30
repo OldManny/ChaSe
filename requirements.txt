@@ -1,0 +1,6 @@
+mysql-connector-python
+python-dotenv
+cryptography
+simpleaudio
+PyQt5
+bcrypt

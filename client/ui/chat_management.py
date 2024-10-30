@@ -72,7 +72,7 @@ def display_message(chat_client, message, message_type, alignment):
         font-size: 15pt;
     """)
 
-    label.setAlignment(Qt.AlignCenter)  # Center text inside the bubble
+    label.setAlignment(Qt.AlignCenter)  # Align the text inside the bubble to the left
     label.setFixedWidth(final_width if len(content) > 0 else min_width)
     label.setSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.Preferred)
 
@@ -146,7 +146,7 @@ def switch_chat(chat_client, chat_identifier, item):
         chat_client.header.setText(f"<b>Group: {group_name}</b>")
         chat_client.group_selected_signal.emit(group_name)
     else:
-        chat_client.header.setText(f"Chatting with {chat_identifier}")
+        chat_client.header.setText(f"{chat_identifier}")
 
     chat_client.client_selected_signal.emit(chat_identifier)  # Signal the selected client
     chat_client.chat_layout.setAlignment(Qt.AlignTop)
@@ -264,5 +264,5 @@ def set_target_client(self, target_client):
     """
     logging.info(f"Setting target client to: {target_client}")
     self.target_client = target_client
-    self.ui.header.setText(f"Chatting with {self.target_client}")
+    self.ui.header.setText(f"{self.target_client}")
     self.connection.send_message(f"HISTORY:{target_client}")

@@ -10,7 +10,7 @@ class LoginDialog(QDialog):
         Sets up the layout and initializes the AuthHandler.
         """
         super().__init__()
-        self.setWindowTitle("Login/Register")
+        self.setWindowTitle("Login")
         self.setGeometry(100, 100, 300, 250)
         self.layout = QVBoxLayout()
         

@@ -15,7 +15,7 @@ def setup_ui(chat_client):
     main_layout = QVBoxLayout()
     content_layout = QHBoxLayout()
 
-    # Sidebar for chat clients
+    # Sidebar
     chat_client.sidebar = QListWidget()
     chat_client.sidebar.setFixedSize(250, 500)
     chat_client.sidebar.setStyleSheet("""
@@ -90,6 +90,9 @@ def setup_ui(chat_client):
 
     chat_layout.addWidget(chat_client.chat_area)
 
+    # Add chat layout to content layout
+    content_layout.addLayout(chat_layout)
+
     # Message input area layout
     input_layout = QHBoxLayout()
     
@@ -97,7 +100,7 @@ def setup_ui(chat_client):
     chat_client.message_input = QLineEdit()
     chat_client.message_input.setFixedHeight(50)
     chat_client.message_input.setPlaceholderText("Type a message")
-    chat_client.message_input.returnPressed.connect(chat_client.handle_send_button)  # Send message on Enter
+    chat_client.message_input.returnPressed.connect(chat_client.handle_send_button)
     chat_client.message_input.setStyleSheet("""
         background-color: #40444B;
         color: white;
@@ -118,5 +121,4 @@ def setup_ui(chat_client):
 
     chat_client.update_client_list_signal.connect(chat_client.update_client_list)
 
-    # Adding a default client to the sidebar
     chat_client.add_client_to_sidebar("All", "public")
