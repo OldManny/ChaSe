@@ -1,5 +1,12 @@
 <h1 align="center">ChaSe</h1>
 
+<div align="center">
+
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/OldManny/ChaSe/main.svg)](https://results.pre-commit.ci/latest/github/OldManny/ChaSe/main)
+
+</div>
+
+
 
 This application supports both public and private messaging, while allows users to register, log in, and communicate in real time using a client-server architecture.
 
@@ -29,8 +36,6 @@ This application supports both public and private messaging, while allows users 
 - **Notification System**: The client plays notification sounds when new messages are received.
 - **SSL Encryption**: Data exchanged between the client and server is encrypted using SSL.
 
-![Public Chat](images/DavidAll.png)
-  
 
 ## Architecture
 
