@@ -1,10 +1,13 @@
 <h1 align="center">ChaSe</h1>
 
+
+This application supports both public and private messaging, while allows users to register, log in, and communicate in real time using a client-server architecture.
+
+
 <p align="center">
   <img src="images/Login.png" alt="Login" />
 </p>
 
-This application supports both public and private messaging, while allows users to register, log in, and communicate in real time using a client-server architecture.
 
 ## Table of Contents
 
