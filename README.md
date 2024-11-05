@@ -1,8 +1,10 @@
 # ChaSe
 
-![Login](images/Login.png)
+<p align="center">
+  <img src="images/Login.png" alt="Login" />
+</p>
 
-This is a chat application designed as a portfolio project. The application supports both public and private messaging, while allows users to register, log in, and communicate in real time using a client-server architecture. Public messages are visible to all users, while private messages are sent directly between users.
+This application supports both public and private messaging, while allows users to register, log in, and communicate in real time using a client-server architecture.
 
 The ChaSe is built with a focus on flexibility and modularity, using Python and PyQt5 for the client-side user interface, and a MySQL database for managing user credentials and message history.
 
@@ -16,7 +18,6 @@ The ChaSe is built with a focus on flexibility and modularity, using Python and 
 - [Certificates](#certificates)
 - [Usage](#usage)
 - [Future Improvements](#future-improvements)
-- [Testing](#testing)
 
 
 ## Features
@@ -27,8 +28,6 @@ The ChaSe is built with a focus on flexibility and modularity, using Python and 
 - **Message History**: Users can access their chat history upon login.
 - **Notification System**: The client plays notification sounds when new messages are received.
 - **SSL Encryption**: Data exchanged between the client and server is encrypted using SSL.
-
-![Public Chat](images/DavidAll.png)
   
 
 ## Architecture
@@ -44,6 +43,9 @@ The ChaSe is built with a focus on flexibility and modularity, using Python and 
 - **MySQL**: Relational database for storing user information and messages.
 - **SSL**: Secure communication between client and server.
 - **bcrypt**: Password hashing for user credentials.
+
+
+![Public Chat](images/DavidAll.png)
 
 
 ## Setup Instructions
@@ -172,23 +174,12 @@ key_file = os.path.join('certificates', 'key.pem')
 
 ### Key Interactions
 
-- **Sending Messages**: Type your message in the input field and press "Enter" to send. In public chat, all users see the message, whereas in private chat, only the selected recipient receives the message.
+- **Sending Messages**: Type your message in the input field and press "Enter" to send.
 - **Switching Chats**: The sidebar lists all available users. Selecting a user switches the view to a private chat with that person. For public chat, select "All" from the sidebar.
 - **Reconnecting**: If the connection is lost, the client attempts to reconnect automatically. If it fails, a message will be displayed, and the application will continue retrying for a limited number of attempts.
 
 
 ## Future Improvements
 
-- **End-to-End Encryption (E2EE)**: End-to-End Encryption is a planned feature to ensure the privacy and security of private messages. Although an attempt to implement E2EE was made, it led to some unresolved issues, and the feature was temporarily postponed. The application currently uses SSL to secure the connection between client and server, but E2EE will be added in future versions as time permits and the feature is fully tested and stable.
+- **End-to-End Encryption (E2EE)**: End-to-End Encryption is a planned feature to ensure the privacy and security of private messages. Although an attempt to implement E2EE was made, it led to some unresolved issues, and the feature was temporarily postponed. The application currently uses SSL to secure the connection between client and server, but E2EE will be added in future when is fully tested and stable.
 - **Group Chat**: Currently, group chat functionality is under consideration but not implemented, mostly because there is already a public chat available.
-
-
-## Testing
-
-**Run relevant tests**
-
-```sh
-python -m unittest tests.test_client
-python -m unittest tests.test_database
-python -m unittest tests.test_server
-```
