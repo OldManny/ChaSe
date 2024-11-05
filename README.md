@@ -2,6 +2,8 @@
 
 <div align="center">
 
+[![Run Tests](https://github.com/OldManny/ChaSe/actions/workflows/test.yml/badge.svg)](https://github.com/OldManny/ChaSe/actions/workflows/test.yml)
+
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/OldManny/ChaSe/main.svg)](https://results.pre-commit.ci/latest/github/OldManny/ChaSe/main)
 
 </div>
