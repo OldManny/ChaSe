@@ -3,6 +3,7 @@ from unittest.mock import patch, MagicMock
 from client.client import ChatClient, main
 from PyQt5.QtWidgets import QDialog
 import sys
+import os  # Import os to use environment variable
 
 
 class TestChatClient(unittest.TestCase):
@@ -27,7 +28,9 @@ class TestChatClient(unittest.TestCase):
         mock_ui_instance = mock_ui.return_value
 
         # Create the ChatClient
-        client = ChatClient("127.0.0.1", 65432, mock_ui_instance, "TestClient")
+        client = ChatClient(
+            os.getenv("HOST", "127.0.0.1"), 65432, mock_ui_instance, "TestClient"
+        )
 
         # Check if connection is established
         mock_connection.connect_to_server.assert_called_once()
@@ -60,7 +63,9 @@ class TestChatClient(unittest.TestCase):
         mock_connection = mock_client_connection.return_value
 
         # Create the ChatClient
-        client = ChatClient("127.0.0.1", 65432, MagicMock(), "TestClient")
+        client = ChatClient(
+            os.getenv("HOST", "127.0.0.1"), 65432, MagicMock(), "TestClient"
+        )
 
         # Simulate sending a message
         client.send_message("Hello")
@@ -83,7 +88,9 @@ class TestChatClient(unittest.TestCase):
         mock_handler_instance = mock_message_handler.return_value
 
         # Create the ChatClient
-        client = ChatClient("127.0.0.1", 65432, MagicMock(), "TestClient")
+        client = ChatClient(
+            os.getenv("HOST", "127.0.0.1"), 65432, MagicMock(), "TestClient"
+        )
 
         # Run the receive_messages function
         client.receive_messages()
@@ -106,7 +113,9 @@ class TestChatClient(unittest.TestCase):
         mock_qapp_instance.return_value = MagicMock()  # Mock QApplication instance
 
         # Create the ChatClient
-        client = ChatClient("127.0.0.1", 65432, MagicMock(), "TestClient")
+        client = ChatClient(
+            os.getenv("HOST", "127.0.0.1"), 65432, MagicMock(), "TestClient"
+        )
 
         # Simulate closing the connection
         client.close_connection()
@@ -143,7 +152,10 @@ class TestChatClient(unittest.TestCase):
 
         # Check if ChatClient was initialized correctly
         mock_chat_client.assert_called_with(
-            "127.0.0.1", 65432, mock_chat_ui.return_value, "TestClient"
+            os.getenv("HOST", "127.0.0.1"),
+            65432,
+            mock_chat_ui.return_value,
+            "TestClient",
         )
 
         # Check if the application quit process is correctly set up

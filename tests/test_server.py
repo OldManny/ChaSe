@@ -2,6 +2,7 @@ import unittest
 from unittest.mock import patch, MagicMock
 import ssl
 import signal
+import os  # Import os to use environment variable
 from server.server import start_server, signal_handler
 from server.network.connection import handle_new_connection
 
@@ -27,7 +28,7 @@ class TestServer(unittest.TestCase):
 
         # Mock socket to simulate accepting a connection
         mock_conn = MagicMock()
-        mock_addr = ("127.0.0.1", 12345)
+        mock_addr = (os.getenv("HOST", "127.0.0.1"), 12345)
         mock_socket_instance.accept.return_value = (mock_conn, mock_addr)
 
         # Simulate server accepting a connection, then stopping
@@ -52,7 +53,9 @@ class TestServer(unittest.TestCase):
         )
 
         # Verify socket setup: binding and listening on the correct port
-        mock_socket_instance.bind.assert_called_once_with(("127.0.0.1", 65432))
+        mock_socket_instance.bind.assert_called_once_with(
+            (os.getenv("HOST", "127.0.0.1"), 65432)
+        )
         mock_socket_instance.listen.assert_called_once()
 
     @patch("server.server.server_socket")
