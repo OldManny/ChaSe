@@ -48,7 +48,7 @@ class TestServer(unittest.TestCase):
         # Check SSL context creation and certificate loading
         mock_ssl_context.assert_called_once_with(ssl.Purpose.CLIENT_AUTH)
         mock_context.load_cert_chain.assert_called_once_with(
-            certfile="cert.pem", keyfile="key.pem"
+            certfile="certificates/cert.pem", keyfile="certificates/key.pem"
         )
 
         # Verify socket setup: binding and listening on the correct port

@@ -1,6 +1,6 @@
 mysql-connector-python
 python-dotenv
 cryptography
-simpleaudio
+simpleaudio; sys_platform != 'linux'
 PyQt5
 bcrypt
