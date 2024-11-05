@@ -1,4 +1,4 @@
-# ChaSe
+<h1 align="center">ChaSe</h1>
 
 <p align="center">
   <img src="images/Login.png" alt="Login" />
