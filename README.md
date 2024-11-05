@@ -1,5 +1,7 @@
 # ChaSe
 
+![Login](images/Login.png)
+
 This is a chat application designed as a portfolio project. The application supports both public and private messaging, while allows users to register, log in, and communicate in real time using a client-server architecture. Public messages are visible to all users, while private messages are sent directly between users.
 
 The ChaSe is built with a focus on flexibility and modularity, using Python and PyQt5 for the client-side user interface, and a MySQL database for managing user credentials and message history.
@@ -25,6 +27,8 @@ The ChaSe is built with a focus on flexibility and modularity, using Python and 
 - **Message History**: Users can access their chat history upon login.
 - **Notification System**: The client plays notification sounds when new messages are received.
 - **SSL Encryption**: Data exchanged between the client and server is encrypted using SSL.
+
+![Public Chat](images/DavidAll.png)
   
 
 ## Architecture
@@ -164,6 +168,7 @@ key_file = os.path.join('certificates', 'key.pem')
 - **Message Notifications**: The client application will play a notification sound when new messages are received.
 - **Message History**: Users can access the history of both public and private chats. Message history is automatically loaded when a user selects a chat.
 
+![Private Chat](images/AliceBob.png)
 
 ### Key Interactions
 
