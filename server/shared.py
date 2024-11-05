@@ -5,6 +5,7 @@ from server.database.connection import get_db_connection
 # Dictionary to manage connected clients
 clients = {}
 
+
 def enqueue_message(conn, message):
     """
     Adds a message to the message queue of the specified client connection.
@@ -14,7 +15,8 @@ def enqueue_message(conn, message):
         message (str): The message to be enqueued.
     """
     if conn in clients:
-        clients[conn]['queue'].put(message)
+        clients[conn]["queue"].put(message)
+
 
 def store_message_in_db(sender, recipient, group, message):
     """
@@ -32,7 +34,7 @@ def store_message_in_db(sender, recipient, group, message):
         # Fetch sender ID based on username
         cursor.execute("SELECT id FROM users WHERE username = %s", (sender,))
         sender_id = cursor.fetchone()[0]
-        
+
         recipient_id = None
         group_id = None
 
@@ -40,15 +42,17 @@ def store_message_in_db(sender, recipient, group, message):
             # Fetch recipient ID for private message
             cursor.execute("SELECT id FROM users WHERE username = %s", (recipient,))
             recipient_id = cursor.fetchone()[0]
-        
+
         if group:
             # Fetch group ID for group message
             cursor.execute("SELECT id FROM `groups` WHERE name = %s", (group,))
             group_id = cursor.fetchone()[0]
 
         # Insert message into the database
-        cursor.execute("INSERT INTO messages (sender_id, recipient_id, group_id, message) VALUES (%s, %s, %s, %s)",
-                       (sender_id, recipient_id, group_id, message))
+        cursor.execute(
+            "INSERT INTO messages (sender_id, recipient_id, group_id, message) VALUES (%s, %s, %s, %s)",
+            (sender_id, recipient_id, group_id, message),
+        )
         conn.commit()
         logging.debug("Stored message in DB.")
     except mysql.connector.Error as err:
@@ -56,6 +60,7 @@ def store_message_in_db(sender, recipient, group, message):
     finally:
         cursor.close()
         conn.close()
+
 
 def send_message_history(conn, username, chat_identifier):
     """
@@ -76,27 +81,33 @@ def send_message_history(conn, username, chat_identifier):
 
         if chat_identifier == "public" or chat_identifier == "All":
             # Retrieve all public messages
-            query = ("SELECT users.username, messages.message "
-                     "FROM messages JOIN users ON messages.sender_id = users.id "
-                     "WHERE recipient_id IS NULL AND group_id IS NULL "
-                     "ORDER BY messages.timestamp ASC")
+            query = (
+                "SELECT users.username, messages.message "
+                "FROM messages JOIN users ON messages.sender_id = users.id "
+                "WHERE recipient_id IS NULL AND group_id IS NULL "
+                "ORDER BY messages.timestamp ASC"
+            )
             cursor.execute(query)
         elif chat_identifier.startswith("group:"):
             # Retrieve messages for a specific group
             group_name = chat_identifier.split(":", 1)[1]
-            query = ("SELECT users.username, messages.message "
-                     "FROM messages JOIN users ON messages.sender_id = users.id "
-                     "JOIN `groups` ON messages.group_id = `groups`.id "
-                     "WHERE `groups`.name = %s "
-                     "ORDER BY messages.timestamp ASC")
+            query = (
+                "SELECT users.username, messages.message "
+                "FROM messages JOIN users ON messages.sender_id = users.id "
+                "JOIN `groups` ON messages.group_id = `groups`.id "
+                "WHERE `groups`.name = %s "
+                "ORDER BY messages.timestamp ASC"
+            )
             cursor.execute(query, (group_name,))
         else:
             # Retrieve private message history
-            query = ("SELECT users.username, messages.message "
-                     "FROM messages JOIN users ON messages.sender_id = users.id "
-                     "WHERE (messages.sender_id = %s AND messages.recipient_id = (SELECT id FROM users WHERE username = %s)) "
-                     "OR (messages.sender_id = (SELECT id FROM users WHERE username = %s) AND messages.recipient_id = %s) "
-                     "ORDER BY messages.timestamp ASC")
+            query = (
+                "SELECT users.username, messages.message "
+                "FROM messages JOIN users ON messages.sender_id = users.id "
+                "WHERE (messages.sender_id = %s AND messages.recipient_id = (SELECT id FROM users WHERE username = %s)) "
+                "OR (messages.sender_id = (SELECT id FROM users WHERE username = %s) AND messages.recipient_id = %s) "
+                "ORDER BY messages.timestamp ASC"
+            )
             cursor.execute(query, (user_id, chat_identifier, chat_identifier, user_id))
 
         # Send the retrieved messages to the client

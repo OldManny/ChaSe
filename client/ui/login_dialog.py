@@ -1,6 +1,15 @@
-from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLineEdit, QPushButton, QLabel, QWidget, QStackedLayout
+from PyQt5.QtWidgets import (
+    QDialog,
+    QVBoxLayout,
+    QLineEdit,
+    QPushButton,
+    QLabel,
+    QWidget,
+    QStackedLayout,
+)
 from PyQt5.QtCore import Qt
 from client.handlers.auth_handler import AuthHandler
+
 
 class LoginDialog(QDialog):
     def __init__(self):
@@ -13,10 +22,10 @@ class LoginDialog(QDialog):
         self.setWindowTitle("Login")
         self.setGeometry(100, 100, 300, 250)
         self.layout = QVBoxLayout()
-        
+
         self.stacked_layout = QStackedLayout()
         self.layout.addLayout(self.stacked_layout)
- 
+
         self.auth_handler = AuthHandler(self)  # Pass the dialog instance to the handler
 
         self.login_widget = self.create_login_widget()
@@ -57,7 +66,9 @@ class LoginDialog(QDialog):
         layout.addWidget(self.login_message_label)
 
         self.switch_to_register_label = QLabel("or <a href='#'>Register</a>")
-        self.switch_to_register_label.setAlignment(Qt.AlignCenter)  # Center the label horizontally
+        self.switch_to_register_label.setAlignment(
+            Qt.AlignCenter
+        )  # Center the label horizontally
         layout.addWidget(self.switch_to_register_label)
         self.switch_to_register_label.linkActivated.connect(self.switch_to_register)
 
@@ -98,7 +109,9 @@ class LoginDialog(QDialog):
         layout.addWidget(self.register_message_label)
 
         self.switch_to_login_label = QLabel("or <a href='#'>Login</a>")
-        self.switch_to_login_label.setAlignment(Qt.AlignCenter)  # Center the label horizontally
+        self.switch_to_login_label.setAlignment(
+            Qt.AlignCenter
+        )  # Center the label horizontally
         layout.addWidget(self.switch_to_login_label)
         self.switch_to_login_label.linkActivated.connect(self.switch_to_login)
 
@@ -119,7 +132,9 @@ class LoginDialog(QDialog):
         Clears any registration messages when switching.
         """
         self.stacked_layout.setCurrentWidget(self.login_widget)
-        self.register_message_label.setText("")  # Clear any register messages when switching
+        self.register_message_label.setText(
+            ""
+        )  # Clear any register messages when switching
 
     def get_name(self):
         """

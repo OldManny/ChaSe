@@ -28,6 +28,8 @@ This application supports both public and private messaging, while allows users 
 - **Message History**: Users can access their chat history upon login.
 - **Notification System**: The client plays notification sounds when new messages are received.
 - **SSL Encryption**: Data exchanged between the client and server is encrypted using SSL.
+
+![Public Chat](images/DavidAll.png)
   
 
 ## Architecture

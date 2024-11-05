@@ -5,7 +5,12 @@ import logging
 from queue import Queue
 from server.database.user import get_all_users
 from server.shared import clients, send_message_history, enqueue_message
-from server.network.message_broadcast import message_sender, broadcast_client_list, process_message
+from server.network.message_broadcast import (
+    message_sender,
+    broadcast_client_list,
+    process_message,
+)
+
 
 def handle_new_connection(conn, addr, context):
     """
@@ -21,7 +26,9 @@ def handle_new_connection(conn, addr, context):
         ssl_conn = context.wrap_socket(conn, server_side=True)
         logging.info(f"SSL connection established with {addr}.")  # SSL confirmation log
         ssl_conn.settimeout(None)  # Remove the timeout after a successful handshake
-        client_thread = threading.Thread(target=handle_client, args=(ssl_conn, addr))  # Pass the SSL connection to the client handler
+        client_thread = threading.Thread(
+            target=handle_client, args=(ssl_conn, addr)
+        )  # Pass the SSL connection to the client handler
         client_thread.start()  # Start the client thread
     except ssl.SSLError as e:
         if "HTTP_REQUEST" in str(e):
@@ -33,11 +40,12 @@ def handle_new_connection(conn, addr, context):
     except Exception as e:
         logging.error(f"Unexpected error during connection setup with {addr}: {e}")
     finally:
-        if 'ssl_conn' not in locals():
+        if "ssl_conn" not in locals():
             try:
                 conn.close()
-            except:
+            except Exception:
                 pass
+
 
 def handle_client(conn, addr):
     """
@@ -51,7 +59,7 @@ def handle_client(conn, addr):
     name = None
     try:
         name = conn.recv(1024).decode().strip()
-        clients[conn] = {'name': name, 'queue': message_queue}
+        clients[conn] = {"name": name, "queue": message_queue}
         broadcast_client_list()
         logging.info(f"{name} connected by {addr}")
 
@@ -74,7 +82,7 @@ def handle_client(conn, addr):
                 break
             message = data.decode().strip()
             logging.debug(f"Received message from {name}")
-            if message == 'disconnect':
+            if message == "disconnect":
                 break
             process_message(conn, name, message)
 
@@ -84,6 +92,7 @@ def handle_client(conn, addr):
         logging.error(f"Unexpected error handling client {name}: {e}")
     finally:
         cleanup_client_connection(conn, name, addr)
+
 
 def cleanup_client_connection(conn, name, addr):
     """

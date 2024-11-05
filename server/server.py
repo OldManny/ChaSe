@@ -13,18 +13,23 @@ from server.network.connection import handle_new_connection, clients
 load_dotenv()
 
 # Create the logs directory if it doesn't exist
-if not os.path.exists('logs'):
-    os.makedirs('logs')
+if not os.path.exists("logs"):
+    os.makedirs("logs")
 
 # Configure logging to log to server.log with rotation (5 backups, each max size 5 MB)
 log_handler = RotatingFileHandler("logs/server.log", maxBytes=5000000, backupCount=5)
-logging.basicConfig(handlers=[log_handler], level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(
+    handlers=[log_handler],
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+)
 
 # Server configuration from environment variables
-HOST = os.getenv('HOST')
-PORT = int(os.getenv('PORT'))
+HOST = os.getenv("HOST")
+PORT = int(os.getenv("PORT"))
 
 server_socket = None
+
 
 def signal_handler(sig, frame):
     """
@@ -42,15 +47,16 @@ def signal_handler(sig, frame):
         client.close()
     sys.exit(0)
 
+
 def start_server():
     """
     Starts the server, sets up SSL, and begins accepting connections.
     """
     global server_socket
     context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
-    
-    cert_file = os.path.join('certificates', 'cert.pem')
-    key_file = os.path.join('certificates', 'key.pem')
+
+    cert_file = os.path.join("certificates", "cert.pem")
+    key_file = os.path.join("certificates", "key.pem")
 
     # Load SSL certificate and private key
     context.load_cert_chain(certfile=cert_file, keyfile=key_file)
@@ -67,7 +73,9 @@ def start_server():
         try:
             # Accept new client connections
             conn, addr = server_socket.accept()
-            threading.Thread(target=handle_new_connection, args=(conn, addr, context)).start()
+            threading.Thread(
+                target=handle_new_connection, args=(conn, addr, context)
+            ).start()
         except KeyboardInterrupt:
             break
         except Exception as e:
@@ -75,6 +83,7 @@ def start_server():
 
     # Handle server shutdown
     signal_handler(None, None)
+
 
 if __name__ == "__main__":
     start_server()

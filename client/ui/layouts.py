@@ -1,5 +1,14 @@
-from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QListWidget, QLabel, QScrollArea, QWidget, QLineEdit
+from PyQt5.QtWidgets import (
+    QVBoxLayout,
+    QHBoxLayout,
+    QListWidget,
+    QLabel,
+    QScrollArea,
+    QWidget,
+    QLineEdit,
+)
 from PyQt5.QtCore import Qt
+
 
 def setup_ui(chat_client):
     """
@@ -18,7 +27,8 @@ def setup_ui(chat_client):
     # Sidebar
     chat_client.sidebar = QListWidget()
     chat_client.sidebar.setFixedSize(250, 500)
-    chat_client.sidebar.setStyleSheet("""
+    chat_client.sidebar.setStyleSheet(
+        """
         QListWidget {
             background-color: #2C2F33;
             border: none;
@@ -36,7 +46,8 @@ def setup_ui(chat_client):
             border: none;
             border-radius: 15px;
         }
-    """)
+    """
+    )
 
     content_layout.addWidget(chat_client.sidebar)
 
@@ -47,20 +58,23 @@ def setup_ui(chat_client):
     chat_client.header = QLabel(f"{chat_client.client_name}")
     chat_client.header.setAlignment(Qt.AlignLeft)
     chat_client.header.setFixedHeight(50)
-    chat_client.header.setStyleSheet("""
+    chat_client.header.setStyleSheet(
+        """
         background-color: #2C2F33;
         color: white;
         padding: 10px;
         margin: 0px;
         font-size: 18pt;
         font-weight: bold;
-    """)
+    """
+    )
     chat_layout.addWidget(chat_client.header)
 
     # Chat display area
     chat_client.chat_area = QScrollArea()
     chat_client.chat_area.setWidgetResizable(True)
-    chat_client.chat_area.setStyleSheet("""
+    chat_client.chat_area.setStyleSheet(
+        """
         QScrollArea {
             background-color: #2C2F33;
             border: none;
@@ -81,7 +95,8 @@ def setup_ui(chat_client):
             subcontrol-origin: margin;
             subcontrol-position: top;
         }
-    """)
+    """
+    )
 
     chat_client.chat_container = QWidget()
     chat_client.chat_layout = QVBoxLayout()
@@ -95,13 +110,14 @@ def setup_ui(chat_client):
 
     # Message input area layout
     input_layout = QHBoxLayout()
-    
+
     # Message input field
     chat_client.message_input = QLineEdit()
     chat_client.message_input.setFixedHeight(50)
     chat_client.message_input.setPlaceholderText("Type a message")
     chat_client.message_input.returnPressed.connect(chat_client.handle_send_button)
-    chat_client.message_input.setStyleSheet("""
+    chat_client.message_input.setStyleSheet(
+        """
         background-color: #40444B;
         color: white;
         padding: 10px;
@@ -109,7 +125,8 @@ def setup_ui(chat_client):
         border: none;
         border-radius: 10px;
         font-size: 14pt;
-    """)
+    """
+    )
     input_layout.addWidget(chat_client.message_input)
 
     main_layout.addLayout(content_layout)

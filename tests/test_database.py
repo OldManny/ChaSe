@@ -1,9 +1,9 @@
 import unittest
 from unittest.mock import patch, MagicMock
 
-class TestFetchoneMock(unittest.TestCase):
 
-    @patch('server.database.connection.get_db_connection')
+class TestFetchoneMock(unittest.TestCase):
+    @patch("server.database.connection.get_db_connection")
     def test_fetchone_mock(self, mock_get_db_connection):
         """
         Test to verify that the fetchone method in database queries correctly retrieves results
@@ -16,14 +16,18 @@ class TestFetchoneMock(unittest.TestCase):
         mock_conn.cursor.return_value = mock_cursor
 
         # Mock fetchone to return a series of valid IDs for sender, recipient, and group
-        mock_cursor.fetchone.side_effect = [(1,), (2,), (3,)]  # Mocked sender_id, recipient_id, group_id
+        mock_cursor.fetchone.side_effect = [
+            (1,),
+            (2,),
+            (3,),
+        ]  # Mocked sender_id, recipient_id, group_id
 
         # Simulate a database query and check if fetchone works as expected
         cursor = mock_conn.cursor()
         sender_id = cursor.fetchone()[0]
 
         # Execute a sample query to retrieve a user ID
-        cursor.execute("SELECT id FROM users WHERE username = %s", ('sender',))
+        cursor.execute("SELECT id FROM users WHERE username = %s", ("sender",))
 
         # Print outputs to verify behavior
         print(f"fetchone() returned sender_id: {sender_id}")
@@ -38,7 +42,8 @@ class TestFetchoneMock(unittest.TestCase):
         print(f"Executed query: {executed_query}, with args: {executed_args}")
 
         self.assertEqual(executed_query, "SELECT id FROM users WHERE username = %s")
-        self.assertEqual(executed_args, ('sender',))
+        self.assertEqual(executed_args, ("sender",))
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

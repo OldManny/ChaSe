@@ -4,6 +4,7 @@ from PyQt5.QtCore import Qt, QTimer
 import logging
 import time
 
+
 def display_message(chat_client, message, message_type, alignment):
     """
     Displays a message in the chat interface based on its type and alignment.
@@ -16,22 +17,30 @@ def display_message(chat_client, message, message_type, alignment):
     """
 
     # Split the message into sender and content
-    sender, content = message.split(': ', 1) if ': ' in message else (None, message)
+    sender, content = message.split(": ", 1) if ": " in message else (None, message)
 
     # Calculate the width of the text based on its content
     text_document = QTextDocument()
     text_document.setPlainText(content)
     text_width = text_document.idealWidth()
-    max_width = int(chat_client.width() * 0.5)  # Maximum width set to 50% of window width
+    max_width = int(
+        chat_client.width() * 0.5
+    )  # Maximum width set to 50% of window width
     min_width = 20
-    final_width = min(max_width, max(min_width, int(text_width + 30)))  # Final width calculation
+    final_width = min(
+        max_width, max(min_width, int(text_width + 30))
+    )  # Final width calculation
 
     # Determine if the message should be displayed in the current chat
     should_display = False
     if message_type == "public" and chat_client.current_chat in ["All", "public"]:
         should_display = True
     elif message_type == "private":
-        if chat_client.current_chat == sender or chat_client.current_chat == chat_client.client_name or sender == chat_client.client_name:
+        if (
+            chat_client.current_chat == sender
+            or chat_client.current_chat == chat_client.client_name
+            or sender == chat_client.client_name
+        ):
             should_display = True
     elif message_type == "history":
         should_display = True
@@ -64,13 +73,15 @@ def display_message(chat_client, message, message_type, alignment):
     # Create the message bubble
     label = QLabel(content)
     label.setWordWrap(True)
-    label.setStyleSheet(f"""
+    label.setStyleSheet(
+        f"""
         background-color: {'#0084FF' if alignment == 'right' else '#7289DA'};
         color: white;
         padding: 10px 7px;
         border-radius: 18px;
         font-size: 15pt;
-    """)
+    """
+    )
 
     label.setAlignment(Qt.AlignCenter)  # Align the text inside the bubble to the left
     label.setFixedWidth(final_width if len(content) > 0 else min_width)
@@ -80,7 +91,9 @@ def display_message(chat_client, message, message_type, alignment):
     container = QWidget()
     container_layout = QHBoxLayout()
     container_layout.setContentsMargins(0, 0, 0, 0)
-    container_layout.setAlignment(Qt.AlignRight if alignment == "right" else Qt.AlignLeft)
+    container_layout.setAlignment(
+        Qt.AlignRight if alignment == "right" else Qt.AlignLeft
+    )
 
     spacer = QLabel()
     spacer.setFixedSize(30, 30)
@@ -90,13 +103,15 @@ def display_message(chat_client, message, message_type, alignment):
         if display_initials:
             initials_label = QLabel(sender_initials)
             initials_label.setFixedSize(30, 30)
-            initials_label.setStyleSheet("""
+            initials_label.setStyleSheet(
+                """
                 background-color: grey;
                 color: white;
                 border-radius: 15px;
                 padding: 0px;
                 margin: 0px;
-            """)
+            """
+            )
             initials_label.setAlignment(Qt.AlignCenter)
             container_layout.addWidget(initials_label)
         else:
@@ -117,7 +132,9 @@ def display_message(chat_client, message, message_type, alignment):
 
     # Add the message bubble to the chat layout
     chat_client.chat_layout.addWidget(wrapper)
-    QTimer.singleShot(100, chat_client.scroll_to_bottom)  # Scroll to the bottom after displaying the message
+    QTimer.singleShot(
+        100, chat_client.scroll_to_bottom
+    )  # Scroll to the bottom after displaying the message
 
 
 def switch_chat(chat_client, chat_identifier, item):
@@ -139,7 +156,7 @@ def switch_chat(chat_client, chat_identifier, item):
 
     # Update the header based on the chat identifier
     if chat_identifier in ["public", "All"]:
-        chat_client.header.setText(f"<b>Public Chat</b>")
+        chat_client.header.setText("<b>Public Chat</b>")
         chat_client.current_chat = "public"
     elif chat_identifier.startswith("group:"):
         group_name = chat_identifier.split(":", 1)[1]
@@ -148,7 +165,9 @@ def switch_chat(chat_client, chat_identifier, item):
     else:
         chat_client.header.setText(f"{chat_identifier}")
 
-    chat_client.client_selected_signal.emit(chat_identifier)  # Signal the selected client
+    chat_client.client_selected_signal.emit(
+        chat_identifier
+    )  # Signal the selected client
     chat_client.chat_layout.setAlignment(Qt.AlignTop)
     chat_client.clear_chat_display()
 
@@ -157,18 +176,22 @@ def switch_chat(chat_client, chat_identifier, item):
         list_item = chat_client.sidebar.item(index)
         widget = chat_client.sidebar.itemWidget(list_item)
         if list_item == item:
-            widget.setStyleSheet("""
+            widget.setStyleSheet(
+                """
                 background-color: #3e4248;
                 border: none;
                 border-radius: 15px;
                 margin: 2px 0px;
-            """)
+            """
+            )
             list_item.setBackground(Qt.transparent)
         else:
-            widget.setStyleSheet("""
+            widget.setStyleSheet(
+                """
                 background-color: #2C2F33;
                 color: white;
-            """)
+            """
+            )
             list_item.setBackground(Qt.transparent)
 
 
@@ -204,7 +227,9 @@ def scroll_to_bottom(chat_client):
     Args:
         chat_client: The current chat client instance.
     """
-    chat_client.chat_area.verticalScrollBar().setValue(chat_client.chat_area.verticalScrollBar().maximum())
+    chat_client.chat_area.verticalScrollBar().setValue(
+        chat_client.chat_area.verticalScrollBar().maximum()
+    )
 
 
 def handle_send_button(chat_client):
@@ -244,12 +269,14 @@ def highlight_chat_tab(chat_client, chat_identifier):
         widget = chat_client.sidebar.itemWidget(list_item)
         if widget:
             if chat_identifier in widget.findChildren(QLabel)[1].text():
-                widget.setStyleSheet("""
+                widget.setStyleSheet(
+                    """
                     background-color: #40444B;
                     border-radius: 15px;
                     margin: 2px 0px;
                     color: white;
-                """)
+                """
+                )
                 list_item.setBackground(Qt.transparent)
                 break
 

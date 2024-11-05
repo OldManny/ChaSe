@@ -19,16 +19,20 @@ from client.handlers.message_broadcast import MessageHandler
 load_dotenv()
 
 # Server configuration from environment variables
-HOST = os.getenv('HOST')
-PORT = int(os.getenv('PORT'))
+HOST = os.getenv("HOST")
+PORT = int(os.getenv("PORT"))
 
 # Create logs folder if it doesn't exist
-if not os.path.exists('logs'):
-    os.makedirs('logs')
+if not os.path.exists("logs"):
+    os.makedirs("logs")
 
 # Configure logging with rotation to avoid oversized logs
 log_handler = RotatingFileHandler("logs/client.log", maxBytes=5000000, backupCount=5)
-logging.basicConfig(handlers=[log_handler], level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(
+    handlers=[log_handler],
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+)
 
 
 class ChatClient(QObject):
@@ -51,11 +55,15 @@ class ChatClient(QObject):
         self.ui = ui
         self.client_name = client_name
         self.connection = ClientConnection(host, port, client_name)
-        self.message_handler = MessageHandler(ui, client_name, self)  # Pass self to MessageHandler
+        self.message_handler = MessageHandler(
+            ui, client_name, self
+        )  # Pass self to MessageHandler
 
         # Connect signals to slots for message handling
         self.new_message_signal.connect(self.ui.display_message)
-        self.new_message_signal.connect(self.play_notification_sound)  # Connect the signal to the method
+        self.new_message_signal.connect(
+            self.play_notification_sound
+        )  # Connect the signal to the method
         self.display_message_signal.connect(self.ui.display_message)
 
         self.connect_to_server()
@@ -64,9 +72,15 @@ class ChatClient(QObject):
         """Attempts to connect to the server and starts the message receiving thread."""
         if self.connection.connect_to_server():
             self.connection_status_signal.emit(True)  # Emit connection status signal
-            threading.Thread(target=self.receive_messages, daemon=True).start()  # Start a thread to receive messages
+            threading.Thread(
+                target=self.receive_messages, daemon=True
+            ).start()  # Start a thread to receive messages
         else:
-            self.display_message_signal.emit(f"Failed to connect after {self.connection.max_reconnect_attempts} attempts", "general", "left")
+            self.display_message_signal.emit(
+                f"Failed to connect after {self.connection.max_reconnect_attempts} attempts",
+                "general",
+                "left",
+            )
             self.connection_status_signal.emit(False)  # Emit connection status signal
 
     def receive_messages(self):
@@ -108,27 +122,37 @@ class ChatClient(QObject):
         logout_user(self.client_name)  # Log out the user
         QApplication.instance().quit()  # Quit the application
 
+
 def main():
     """Main function to start the chat client application."""
     app = QApplication(sys.argv)
 
     login_dialog = LoginDialog()
     if login_dialog.exec_() == QDialog.Accepted:
-        client_name = login_dialog.get_name()  # Get the client name from the login dialog
+        client_name = (
+            login_dialog.get_name()
+        )  # Get the client name from the login dialog
         if not client_name:
             client_name = f"User{random.randint(1000, 9999)}"  # Assign a random name if none provided
     else:
         sys.exit(0)  # Exit if login is cancelled
 
     ui = ChatClientUI(client_name)  # Create the main UI
-    
+
     client = ChatClient(HOST, PORT, ui, client_name)  # Initialize the ChatClient
-    ui.send_message_signal.connect(client.send_message)  # Connect UI signal to send message
-    ui.client_selected_signal.connect(client.set_target_client)  # Connect UI signal to set target client
+    ui.send_message_signal.connect(
+        client.send_message
+    )  # Connect UI signal to send message
+    ui.client_selected_signal.connect(
+        client.set_target_client
+    )  # Connect UI signal to set target client
 
     ui.show()  # Show the UI
-    app.aboutToQuit.connect(client.close_connection)  # Ensure the connection is closed on app quit
+    app.aboutToQuit.connect(
+        client.close_connection
+    )  # Ensure the connection is closed on app quit
     sys.exit(app.exec_())  # Start the application event loop
+
 
 if __name__ == "__main__":
     main()
