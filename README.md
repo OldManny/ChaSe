@@ -6,9 +6,6 @@
 
 This application supports both public and private messaging, while allows users to register, log in, and communicate in real time using a client-server architecture.
 
-The ChaSe is built with a focus on flexibility and modularity, using Python and PyQt5 for the client-side user interface, and a MySQL database for managing user credentials and message history.
-
-
 ## Table of Contents
 
 - [Features](#features)
