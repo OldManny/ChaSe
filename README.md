@@ -60,8 +60,8 @@ This application supports both public and private messaging, while allows users 
 1. **Clone the repository**:
 
 ```sh
-git clone https://github.com/yourusername/chat-app.git
-cd chat-app
+git clone https://github.com/OldManny/ChaSe.git
+cd ChaSe
 ```
 
 2. **Set up the virtual environment**
