@@ -73,15 +73,13 @@ def display_message(chat_client, message, message_type, alignment):
     # Create the message bubble
     label = QLabel(content)
     label.setWordWrap(True)
-    label.setStyleSheet(
-        f"""
+    label.setStyleSheet(f"""
         background-color: {'#0084FF' if alignment == 'right' else '#7289DA'};
         color: white;
         padding: 10px 7px;
         border-radius: 18px;
         font-size: 15pt;
-    """
-    )
+    """)
 
     label.setAlignment(Qt.AlignCenter)  # Align the text inside the bubble to the left
     label.setFixedWidth(final_width if len(content) > 0 else min_width)
@@ -103,15 +101,13 @@ def display_message(chat_client, message, message_type, alignment):
         if display_initials:
             initials_label = QLabel(sender_initials)
             initials_label.setFixedSize(30, 30)
-            initials_label.setStyleSheet(
-                """
+            initials_label.setStyleSheet("""
                 background-color: grey;
                 color: white;
                 border-radius: 15px;
                 padding: 0px;
                 margin: 0px;
-            """
-            )
+            """)
             initials_label.setAlignment(Qt.AlignCenter)
             container_layout.addWidget(initials_label)
         else:
@@ -176,22 +172,18 @@ def switch_chat(chat_client, chat_identifier, item):
         list_item = chat_client.sidebar.item(index)
         widget = chat_client.sidebar.itemWidget(list_item)
         if list_item == item:
-            widget.setStyleSheet(
-                """
+            widget.setStyleSheet("""
                 background-color: #3e4248;
                 border: none;
                 border-radius: 15px;
                 margin: 2px 0px;
-            """
-            )
+            """)
             list_item.setBackground(Qt.transparent)
         else:
-            widget.setStyleSheet(
-                """
+            widget.setStyleSheet("""
                 background-color: #2C2F33;
                 color: white;
-            """
-            )
+            """)
             list_item.setBackground(Qt.transparent)
 
 
@@ -269,14 +261,12 @@ def highlight_chat_tab(chat_client, chat_identifier):
         widget = chat_client.sidebar.itemWidget(list_item)
         if widget:
             if chat_identifier in widget.findChildren(QLabel)[1].text():
-                widget.setStyleSheet(
-                    """
+                widget.setStyleSheet("""
                     background-color: #40444B;
                     border-radius: 15px;
                     margin: 2px 0px;
                     color: white;
-                """
-                )
+                """)
                 list_item.setBackground(Qt.transparent)
                 break
 
