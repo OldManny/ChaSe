@@ -39,15 +39,13 @@ def add_client_to_sidebar(chat_client, client, chat_identifier=None):
 
     initials_label = QLabel(client[:2].upper())
     initials_label.setFixedSize(40, 40)
-    initials_label.setStyleSheet(
-        """
+    initials_label.setStyleSheet("""
         background-color: grey;
         color: white;
         border-radius: 20px;
         padding: 0px;
         margin: 0px;
-    """
-    )
+    """)
     initials_label.setAlignment(Qt.AlignCenter)
 
     item_layout.addWidget(initials_label)
